@@ -50,6 +50,7 @@ trascina il collegamento sulla taskbar.
 | Doppio clic sull'icona tray | Stessa conversione |
 | Clic destro → Converti GUID | Stessa conversione |
 | Clic destro → Ispeziona JWT | Mostra i claim del JWT negli appunti |
+| Clic destro → Genera QR Code | Mostra il QR Code del testo negli appunti |
 | Clic destro → Esci | Chiude l'app |
 
 Dopo la conversione compare una **notifica toast** con il GUID formattato,
@@ -64,3 +65,13 @@ si apre una finestra con una griglia **Chiave / Valore** con tutti i claim del p
 
 > **Nota:** il token viene solo decodificato, **la firma non viene verificata**.
 > Il token non viene salvato né inviato all'esterno.
+
+### Genera QR Code
+Se gli appunti contengono del testo, si apre una finestra con il QR Code corrispondente
+(codifica UTF-8, correzione d'errore livello M, fino a 2331 byte).
+- **Copia immagine** copia il QR negli appunti come immagine.
+- **Salva PNG…** salva il QR su file.
+- `Esc` chiude la finestra.
+
+Il QR viene generato localmente da un encoder interno (`QrCode.cs`), senza librerie
+esterne né servizi online.

@@ -66,11 +66,15 @@ partial class TrayApplicationContext : ApplicationContext
         ToolStripMenuItem jwtItem = new("Ispeziona JWT");
         jwtItem.Click += (s, e) => InspectJwt();
 
+        ToolStripMenuItem qrItem = new("Genera QR Code");
+        qrItem.Click += (s, e) => ShowQrCode();
+
         ToolStripMenuItem exitItem = new("Esci");
         exitItem.Click += (s, e) => ExitApp();
 
         menu.Items.Add(convertItem);
         menu.Items.Add(jwtItem);
+        menu.Items.Add(qrItem);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(exitItem);
         return menu;
@@ -124,6 +128,40 @@ partial class TrayApplicationContext : ApplicationContext
             }
 
             JwtInspectorForm form = new(claims);
+            form.FormClosed += (s, e) => form.Dispose();
+            form.Show();
+        }
+        catch (Exception ex)
+        {
+            Notify("Errore", ex.Message, ToolTipIcon.Error);
+        }
+    }
+
+    private void ShowQrCode()
+    {
+        try
+        {
+            if (!Clipboard.ContainsText())
+            {
+                Notify("Nessun testo negli appunti", "", ToolTipIcon.Warning);
+                return;
+            }
+
+            string text = Clipboard.GetText();
+            if (string.IsNullOrEmpty(text))
+            {
+                Notify("Nessun testo negli appunti", "", ToolTipIcon.Warning);
+                return;
+            }
+
+            QrCode? qr = QrCode.TryEncode(text);
+            if (qr is null)
+            {
+                Notify("Testo troppo lungo", "Il QR Code supporta al massimo 2331 byte (UTF-8).", ToolTipIcon.Error);
+                return;
+            }
+
+            QrCodeForm form = new(qr, text);
             form.FormClosed += (s, e) => form.Dispose();
             form.Show();
         }
