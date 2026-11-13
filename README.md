@@ -49,7 +49,18 @@ trascina il collegamento sulla taskbar.
 | `Ctrl+Shift+G` | Converte il GUID negli appunti (ovunque tu sia) |
 | Doppio clic sull'icona tray | Stessa conversione |
 | Clic destro → Converti GUID | Stessa conversione |
+| Clic destro → Ispeziona JWT | Mostra i claim del JWT negli appunti |
 | Clic destro → Esci | Chiude l'app |
 
 Dopo la conversione compare una **notifica toast** con il GUID formattato,
 pronto da incollare.
+
+### Ispeziona JWT
+Se gli appunti contengono un JWT valido (accettato anche con prefisso `Bearer `),
+si apre una finestra con una griglia **Chiave / Valore** con tutti i claim del payload.
+- I claim data (`exp`, `iat`, `nbf`, `auth_time`, `updated_at`) mostrano anche la data in ora locale.
+- Gli array vengono mostrati come valori separati da virgola.
+- `Ctrl+C` copia le celle selezionate, `Esc` chiude la finestra.
+
+> **Nota:** il token viene solo decodificato, **la firma non viene verificata**.
+> Il token non viene salvato né inviato all'esterno.
